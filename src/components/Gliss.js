@@ -52,17 +52,17 @@ export default function Gliss({ id, imgSrc, title }) {
 
                 osc(
                      () =>
-                          smoothedValues.valueLo * 2 +
                           1 +
+                          smoothedValues.valueLo * 20 +
                           smoothedValues.valueHi * 10,
-                     0,
+                     0.1,
                      0
                 )
-                     .rotate(() => smoothedValues.valueMid1 * 8)
+                    //  .rotate(() => smoothedValues.valueMid1 * 8)
                      .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                     .modulate(o0, 1)
-                     .blend(osc(10, 0, 1), 0.15)
-                     .color(1, 1, 1)
+                     .modulate(o0, 0.25)
+                    //  .blend(osc(10, 0, 1), 0.15)
+                    //  .color(1, 1, 1)
                      .out(o0);
           };
           document.body.appendChild(script);
