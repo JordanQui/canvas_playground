@@ -1,7 +1,5 @@
 // pages/index.js ou app/page.js
 
-import Dev from "../components/Dev";
-
 export default function Home() {
      return (
           <div
@@ -11,7 +9,7 @@ export default function Home() {
                     "flex-direction": "column",
                }}
           >
-               <Dev id="canvas1"/>
+               canvas playground
           </div>
      );
 }
