@@ -52,7 +52,7 @@ export default function Gliss({ id, imgSrc, title }) {
 
                noise(
                     () => 1 + smoothedValues.valueLo * 20,
-                    0.05
+                    0
                )
                     // .scrollX(() => smoothedValues.valueLo)
                     .scale(() => 1 + (smoothedValues.valueLo * 40))
