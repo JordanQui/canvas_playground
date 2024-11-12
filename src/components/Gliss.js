@@ -51,14 +51,11 @@ export default function Gliss({ id, imgSrc, title }) {
                setInterval(smoothAudio, 1);
 
                 osc(
-                     () =>
-                          1 +
-                          smoothedValues.valueLo * 20 +
-                          smoothedValues.valueHi * 10,
+                     () => 2 - smoothedValues.valueLo,
                      0.1,
                      0
                 )
-                    //  .rotate(() => smoothedValues.valueMid1 * 8)
+                     .rotate(() => smoothedValues.valueLo * 8)
                      .scale(() => smoothedValues.valueLo * 1 + 0.1)
                      .modulate(o0, 0.25)
                     //  .blend(osc(10, 0, 1), 0.15)
