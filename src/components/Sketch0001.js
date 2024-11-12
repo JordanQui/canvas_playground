@@ -1,3 +1,9 @@
+/**
+ * Ce projet utilise Hydra.js, sous licence MIT.
+ * Copyright (c) 2020 Olivia Jack et les contributeurs de Hydra.js.
+ * Voir le fichier LICENSE pour plus de détails.
+ */
+
 "use client";
 
 import { useEffect } from "react";
@@ -29,38 +35,34 @@ export default function Gliss({ id, imgSrc, title }) {
 
                const tresh = 0.01;
 
-              function smoothAudio() {
-                   gsap.to(smoothedValues, {
-                        duration: 0.5,
-                        valueLo: a.fft[0] > tresh ? a.fft[0] : 0,
-                   });
-                   gsap.to(smoothedValues, {
-                        duration: 0.55,
-                        valueMid1: a.fft[1] > tresh ? a.fft[1] : 0,
-                   });
-                   gsap.to(smoothedValues, {
-                        duration: 0.15,
-                        valueMid2: a.fft[2] > tresh ? a.fft[2] : 0,
-                   });
-                   gsap.to(smoothedValues, {
-                        duration: 0.5,
-                        valueHi: a.fft[7] > tresh ? a.fft[7] : 0,
-                   });
-              }
+               function smoothAudio() {
+                    gsap.to(smoothedValues, {
+                         duration: 0.5,
+                         valueLo: a.fft[0] > tresh ? a.fft[0] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.55,
+                         valueMid1: a.fft[1] > tresh ? a.fft[1] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.15,
+                         valueMid2: a.fft[2] > tresh ? a.fft[2] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.5,
+                         valueHi: a.fft[7] > tresh ? a.fft[7] : 0,
+                    });
+               }
 
                setInterval(smoothAudio, 1);
 
-                osc(
-                     () => 2 - smoothedValues.valueLo,
-                     0.1,
-                     0
-                )
-                     .rotate(() => smoothedValues.valueLo * 8)
-                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                     .modulate(o0, 0.25)
+               osc(() => 2 - smoothedValues.valueLo, 0.1, 0)
+                    .rotate(() => smoothedValues.valueLo * 8)
+                    .scale(() => smoothedValues.valueLo * 1 + 0.1)
+                    .modulate(o0, 0.25)
                     //  .blend(osc(10, 0, 1), 0.15)
                     //  .color(1, 1, 1)
-                     .out(o0);
+                    .out(o0);
           };
           document.body.appendChild(script);
 
@@ -87,7 +89,6 @@ export default function Gliss({ id, imgSrc, title }) {
                          backgroundColor: "#00",
                          overflow: "hidden",
                          cursor: "none",
-                         
                     }}
                ></canvas>
           </div>
