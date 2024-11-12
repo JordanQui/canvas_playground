@@ -50,20 +50,16 @@ export default function Gliss({ id, imgSrc, title }) {
 
                setInterval(smoothAudio, 1);
 
-               // osc(10, 0.1)
-               //      .scale(() => smoothedValues.valueLo * 20)
-               //      .modulate(o0, () => smoothedValues.valueLo * 2)
-               //      // .modulate(o0, () => smoothedValues.valueHi * 4)
-               //      .out(o0);
-                    
-               osc(10,0.1)
-                    .rotate(() => smoothedValues.valueMid1 * 8)
-                    .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                    .modulate(o0, () => smoothedValues.valueLo * 1)
-                    // .blend(osc(10, 0, 1), 0.15)
-                    // .color(1, 1, 1)
-                    .kaleid(7)
-                    .out(o0);
+               noise(
+                    () => 1 + smoothedValues.valueLo * 20,
+                    0.05
+               )
+                    // .scrollX(() => smoothedValues.valueLo)
+                    .scale(() => 1 + (smoothedValues.valueLo * 40))
+                    .contrast(2)
+                    .add(osc(0.1,0))
+                    .modulate(o0,() => 0.1 + (smoothedValues.valueLo * 10))
+               .out();
           };
           document.body.appendChild(script);
 

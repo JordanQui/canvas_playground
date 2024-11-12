@@ -1,4 +1,4 @@
-import Gliss2 from "../../../components/Gliss2";
+import Sketch2 from "../../../components/Sketch0002";
 
 export default function GlissContainer() {
      return (
@@ -9,7 +9,7 @@ export default function GlissContainer() {
                     "flex-direction": "column",
                }}
           >
-               <Gliss2 id="canvas1" />
+               <Sketch2 id="canvas1" />
           </div>
      );
 }
