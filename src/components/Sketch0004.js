@@ -77,8 +77,8 @@ export default function Gliss({ id, imgSrc, title }) {
 
                p.setup = () => {
                     const canvas = p.createCanvas(
-                         400,
-                         400
+                         200,
+                         200
                     );
                     p5CanvasRef.current = canvas;
                     p.background(0);
