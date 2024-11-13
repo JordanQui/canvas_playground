@@ -58,8 +58,8 @@ export default function Gliss({ id, imgSrc, title }) {
                     s0.init({ src: p5CanvasRef.current.canvas });
                     src(s0)
                          .modulate(s0, () => 0.01 + smoothedValues.valueLo * 2)
-                         .contrast(2)
-                         .scale(() => 1 + smoothedValues.valueHi * 10)
+                         .contrast(1)
+                         .scale(() => 1 - smoothedValues.valueHi * 2)
                          // .scrollX(1, 0.1)
                          .out();
                }
@@ -96,7 +96,7 @@ export default function Gliss({ id, imgSrc, title }) {
                     // Appliquer le seuil de volume
                     if (micLevel >= threshold) {
                          spacing = p.map(micLevel, threshold, 1, 1, 1000);
-                         rotationAngle = p.map(micLevel, threshold, 1, 0, p.PI);
+                         rotationAngle = p.map(micLevel, threshold, 1, 0, p.PI *4);
                     } else {
                          spacing = 100;
                          rotationAngle = 0;
