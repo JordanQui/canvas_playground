@@ -77,8 +77,8 @@ export default function Gliss({ id, imgSrc, title }) {
 
                p.setup = () => {
                     const canvas = p.createCanvas(
-                         p.windowWidth,
-                         p.windowHeight
+                         200,
+                         200
                     );
                     p5CanvasRef.current = canvas;
                     p.background(0);
@@ -95,10 +95,10 @@ export default function Gliss({ id, imgSrc, title }) {
 
                     // Appliquer le seuil de volume
                     if (micLevel >= threshold) {
-                         spacing = p.map(micLevel, threshold, 1, 1, 1000);
+                         spacing = p.map(micLevel, threshold, 1, 1, 100);
                          rotationAngle = p.map(micLevel, threshold, 1, 0, p.PI);
                     } else {
-                         spacing = 100;
+                         spacing = 10;
                          rotationAngle = 0;
                     }
 
