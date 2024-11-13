@@ -98,7 +98,7 @@ export default function Gliss({ id, imgSrc, title }) {
                          spacing = p.map(micLevel, threshold, 1, 1, 1000);
                          rotationAngle = p.map(micLevel, threshold, 1, 0, p.PI);
                     } else {
-                         spacing = 10;
+                         spacing = 100;
                          rotationAngle = 0;
                     }
 
