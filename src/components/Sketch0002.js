@@ -55,14 +55,16 @@ export default function Gliss({ id, imgSrc, title }) {
                }
 
                setInterval(smoothAudio, 1);
+               a.setSmooth(0.9);
 
-               noise(() => 1 + smoothedValues.valueLo * 20, 0)
-                    // .scrollX(() => smoothedValues.valueLo)
-                    .scale(() => 1 + smoothedValues.valueLo * 40)
-                    .contrast(2)
-                    .add(osc(0.1, 0))
-                    .modulate(o0, () => 0.1 + smoothedValues.valueLo * 10)
-                    .out();
+               noise(() => 1 + smoothedValues.valueLo * 10, 0)
+               .scrollX(() => -smoothedValues.valueLo * 10)
+               // .scrollY(() => smoothedValues.valueLo * 2)
+               .scale(() => 1 + (smoothedValues.valueLo * 20) - (smoothedValues.valueHi * 1))
+               .contrast(1)
+               .add(osc(() => 0.1 + smoothedValues.valueHi * 200, 0))
+               .modulate(o0, () => 0.1 + smoothedValues.valueLo * 5)
+               .out();
           };
           document.body.appendChild(script);
 

@@ -33,7 +33,7 @@ export default function Gliss({ id, imgSrc, title }) {
                     valueHi: 0,
                };
 
-               const tresh = 0.01;
+               const tresh = 0.0001;
 
                function smoothAudio() {
                     gsap.to(smoothedValues, {
@@ -56,7 +56,7 @@ export default function Gliss({ id, imgSrc, title }) {
 
                setInterval(smoothAudio, 1);
 
-               osc(() => 2 - smoothedValues.valueLo, 0.1, 0)
+               osc(() => 2 - smoothedValues.valueLo + (smoothedValues.valueHi * 10), 0.1, 0)
                     .rotate(() => smoothedValues.valueLo * 8)
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
                     .modulate(o0, 0.25)
