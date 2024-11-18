@@ -24,7 +24,7 @@ export default function Gliss({ id, imgSrc, title }) {
 
                a.setBins(8);
 
-               setResolution(800, 640);
+               setResolution(800, 600);
 
                let smoothedValues = {
                     valueLo: 0,
@@ -61,7 +61,7 @@ export default function Gliss({ id, imgSrc, title }) {
                .scrollX(() => -smoothedValues.valueLo * 5)
                // .scrollY(() => smoothedValues.valueLo * 2)
                .scale(() => 1 + (smoothedValues.valueLo * 10) - (smoothedValues.valueHi * 1))
-               .contrast(1)
+               .contrast(() => 5 - (smoothedValues.valueLo * 30))
                .add(osc(() => 0.1 + smoothedValues.valueHi * 50, 0))
                .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5)
                .out();
