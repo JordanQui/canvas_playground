@@ -9,7 +9,7 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 
-export default function Gliss({ id, imgSrc, title }) {
+export default function Sketch0001({ id }) {
      useEffect(() => {
           const script = document.createElement("script");
           script.src = "/hydra.js";
@@ -60,9 +60,8 @@ export default function Gliss({ id, imgSrc, title }) {
                     .rotate(() => smoothedValues.valueLo * 8)
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
                     .modulate(o0, 0.25)
-                    //  .blend(osc(10, 0, 1), 0.15)
-                    //  .color(1, 1, 1)
-                    .out(o0);
+                    .blend(o0, 0.2)
+               .out(o0);
           };
           document.body.appendChild(script);
 
