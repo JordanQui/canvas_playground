@@ -9,7 +9,7 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 
-export default function Sketch0001({ id }) {
+export default function Sketch0002({ id }) {
      useEffect(() => {
           const script = document.createElement("script");
           script.src = "/hydra.js";
@@ -24,7 +24,7 @@ export default function Sketch0001({ id }) {
 
                a.setBins(8);
 
-               setResolution(800, 640);
+               setResolution(800, 600);
 
                let smoothedValues = {
                     valueLo: 0,
@@ -33,7 +33,7 @@ export default function Sketch0001({ id }) {
                     valueHi: 0,
                };
 
-               const tresh = 0.0001;
+               const tresh = 0.01;
 
                function smoothAudio() {
                     gsap.to(smoothedValues, {
@@ -55,30 +55,17 @@ export default function Sketch0001({ id }) {
                }
 
                setInterval(smoothAudio, 1);
+               a.setSmooth(0.9);
 
-               osc(
-                    () =>
-                         2 -
-                         smoothedValues.valueLo +
-                         smoothedValues.valueHi * 3,
-                    0.1,
-                    0
-                    // () => smoothedValues.valueLo * 5
-               )
-                    // .rotate(() => smoothedValues.valueLo * 8)
-                    .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                    .mult(
-                         osc(
-                              () => 0.1 + smoothedValues.valueHi * 1,
-                              0,
-                              () =>
-                                   smoothedValues.valueMid1 * 100 +
-                                   smoothedValues.valueHi * 100
-                         ).rotate(10)
-                    )
-                    .modulate(o0, 0.6)
-                    // .blend(o0, 0.2)
-                    .out(o0);
+               osc(() => 100 - smoothedValues.valueLo * 500, 0)
+                    .scrollX(() => -smoothedValues.valueMid2 * 20)
+                    .scale(() => 1 + (smoothedValues.valueLo * 10) - (smoothedValues.valueHi * 4))
+                    .contrast(() => 5 - (smoothedValues.valueLo * 10))
+                    .add(osc(() => 0.1 + smoothedValues.valueHi * 500, 0, ()=> smoothedValues.valueMid1 * 10).rotate(10))
+                    .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5 + (smoothedValues.valueHi * 100))
+                    .modulate(osc(() => 1 + smoothedValues.valueLo * 2,0.1,0.1))
+                    .blend(o0, 0.5)
+               .out();
           };
           document.body.appendChild(script);
 

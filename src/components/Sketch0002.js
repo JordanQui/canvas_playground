@@ -59,12 +59,23 @@ export default function Sketch0002({ id }) {
 
                noise(() => 1 + smoothedValues.valueLo * 15, 0)
                     .scrollX(() => -smoothedValues.valueMid2 * 5)
-                    .scale(() => 1 + (smoothedValues.valueLo * 10) - (smoothedValues.valueHi * 1.5))
-                    .contrast(() => 5 - (smoothedValues.valueLo * 10))
-                    .add(osc(() => 0.1 + smoothedValues.valueHi * 50, 0))
+                    .scale(
+                         () =>
+                              1 +
+                              smoothedValues.valueLo * 10 -
+                              smoothedValues.valueHi * 1.5
+                    )
+                    .contrast(() => 5 - smoothedValues.valueLo * 10)
+                    .add(
+                         osc(
+                              () => 0.1 + smoothedValues.valueHi * 500,
+                              0,
+                              () => smoothedValues.valueMid1 * 10
+                         ).rotate(10)
+                    )
                     .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5)
                     .blend(o0, 0.5)
-               .out();
+                    .out();
           };
           document.body.appendChild(script);
 
