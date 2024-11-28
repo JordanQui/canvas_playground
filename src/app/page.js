@@ -50,6 +50,7 @@ function HoverButton({ href, label }) {
                     color: "black",
                     width: "200px",
                     transition: "all 0.3s",
+                    height: "50px"
                }}
                onMouseEnter={() => setIsHovered(true)}
                onMouseLeave={() => setIsHovered(false)}
