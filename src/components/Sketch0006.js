@@ -55,21 +55,22 @@ export default function Sketch0002({ id }) {
                }
 
                setInterval(smoothAudio, 1);
-               a.setSmooth(0.99);
+               a.setSmooth(0.2);
 
-               speed=0.0000001
+               speed=0.00001
 
-               osc(() => 100 - smoothedValues.valueLo * 500, 0)
-                    .scrollX(() => -smoothedValues.valueMid2 * 20)
-                    .scale(() => 1 + (smoothedValues.valueLo * 10) - (smoothedValues.valueHi * 4))
-                    .contrast(() => 5 - (smoothedValues.valueLo * 10))
-                    .add(osc(() => 0.1 + smoothedValues.valueHi * 500, 0, ()=> smoothedValues.valueMid1 * 10).rotate(0.1))
-                    .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5 + (smoothedValues.valueHi * 100))
-                    .modulate(osc(() => 1 + smoothedValues.valueLo * 2,0.1,0.1))
-                    .blend(o0, 0.5)
-                    .kaleid(7)
-                    .scale(10)
-               .out();
+               shape(1, 0.2, 0.3)
+               .rotate(1, 0.2)
+                    .scale(() => 0.0001 + smoothedValues.valueLo * 10)
+                    .repeat(4)
+                    .modulateRotate(o0)
+                    .modulate(
+                         noise(() => 0 + (smoothedValues.valueLo * 10), () => 2 + smoothedValues.valueHi * 200),
+                         1
+                    )
+                    .invert(1)
+                    .contrast(2)
+                    .out(o0);
           };
           document.body.appendChild(script);
 

@@ -8,6 +8,7 @@ export default function Home() {
           { name: "Sketch 001", path: "/canvas/sketch0001" },
           { name: "Sketch 002", path: "/canvas/sketch0002" },
           { name: "Sketch 003", path: "/canvas/sketch0003" },
+          { name: "Sketch 004", path: "/canvas/sketch0004" },
           // { name: "Sketch 004", path: "/canvas/sketch0004" },
      ];
 
