@@ -1,30 +1,31 @@
-/**
- * Ce projet utilise Hydra.js, sous licence MIT.
- * Copyright (c) 2020 Olivia Jack et les contributeurs de Hydra.js.
- * Voir le fichier LICENSE pour plus de détails.
- */
-
 "use client";
 
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 
 export default function Sketch0002({ id }) {
-     useEffect(() => {
-          const script = document.createElement("script");
-          script.src = "/hydra.js";
-          script.async = true;
-          script.onload = () => {
-               const canvas = document.getElementById(id);
+     const intervalRef = useRef(null);
+     const hydraRef = useRef(null);
+     const scriptRef = useRef(null);
 
-               const hydra = new Hydra({
+     useEffect(() => {
+          // Charge le script Hydra uniquement une fois
+          if (!scriptRef.current) {
+               scriptRef.current = document.createElement("script");
+               scriptRef.current.src = "/hydra.js";
+               scriptRef.current.async = true;
+               document.body.appendChild(scriptRef.current);
+          }
+
+          const onLoad = () => {
+               const canvas = document.getElementById(id);
+               hydraRef.current = new Hydra({
                     canvas: canvas,
                     detectAudio: true,
                });
 
                a.setBins(8);
-
-               setResolution(800, 600);
+               setResolution(1920, 1080);
 
                let smoothedValues = {
                     valueLo: 0,
@@ -54,36 +55,42 @@ export default function Sketch0002({ id }) {
                     });
                }
 
-               setInterval(smoothAudio, 1);
+               clearInterval(intervalRef.current);
+               intervalRef.current = setInterval(smoothAudio, 16); // Utilisez un intervalle plus long pour réduire la charge
+
                a.setSmooth(0.9);
 
-               osc(
+               const oscillator = osc(
                     () =>
                          2 -
                          smoothedValues.valueLo +
                          smoothedValues.valueHi * 3,
                     0,
-                    0
+                    () => smoothedValues.valueLo * 100
                )
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                    .mult(
-                         osc(
-                                   () => 0.1 + smoothedValues.valueHi * 1,
-                                   0,
-                                   () =>
-                                        smoothedValues.valueMid1 * 100 +
-                                        smoothedValues.valueHi * 100
-                              )
-                              // .rotate(10)
-                    )
                     // .modulate(o0, 0.6)
                     .out(window.o0);
-          };
-          document.body.appendChild(script);
 
-          // Cleanup lors de la destruction du composant
+               // Cleanup on component unmount
+               return () => {
+                    clearInterval(intervalRef.current);
+                    if (oscillator) {
+                         oscillator.free(); // Libérez les ressources de l'oscillateur
+                    }
+                    hydraRef.current = null;
+               };
+          };
+
+          scriptRef.current.onload = onLoad;
+
+          // Cleanup when the component is unmounted
           return () => {
-               document.body.removeChild(script);
+               if (scriptRef.current) {
+                    scriptRef.current.onload = null; // Retirer l'écouteur d'événements
+                    document.body.removeChild(scriptRef.current); // Enlevez le script au démontage
+                    scriptRef.current = null; // Réinitialisez la référence
+               }
           };
      }, [id]);
 
@@ -91,12 +98,12 @@ export default function Sketch0002({ id }) {
           <div
                style={{
                     display: "flex",
-                    "justify-content": "center",
-                    "flex-direction": "column",
+                    justifyContent: "center",
+                    flexDirection: "column",
                }}
           >
                <canvas
-                    id={id} // Use the id prop for canvas
+                    id={id}
                     style={{
                          display: "block",
                          width: "100vw",
