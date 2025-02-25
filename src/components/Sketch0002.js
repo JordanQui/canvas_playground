@@ -64,21 +64,24 @@ export default function Sketch0002({ id }) {
 
                const oscillator = noise(
                     () => 1 + smoothedValues.valueLo * 15,
-                    0
+                    1
                )
                     .scrollX(() => -smoothedValues.valueMid2 * 50000 + 1000)
                     .scale(
                          () =>
                               1 +
-                              smoothedValues.valueLo * 2
+                              smoothedValues.valueLo * 2 +
+                              smoothedValues.valueHi * 4
                     )
                     .contrast(() => 5 - smoothedValues.valueLo * 10)
                     .add(
                          osc(
                               () => 0.1 + smoothedValues.valueHi * 5000,
                               0,
-                              () => smoothedValues.valueMid1 * 10
-                         ).rotate(10)
+                              () =>
+                                   smoothedValues.valueMid1 * 10 +
+                                   smoothedValues.valueHi * 1e6
+                         )
                     )
                     .modulate(o0, () => 0.1 + smoothedValues.valueHi * 2.5)
                     .blend(o0, 0.5)
