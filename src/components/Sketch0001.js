@@ -24,7 +24,7 @@ export default function Sketch0001({ id }) {
 
                a.setBins(8);
 
-               setResolution(4000, 2000);
+               setResolution(1920, 1080);
 
                let smoothedValues = {
                     valueLo: 0,
