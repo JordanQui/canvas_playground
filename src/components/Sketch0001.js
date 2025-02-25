@@ -60,7 +60,7 @@ export default function Sketch0002({ id }) {
 
                a.setSmooth(0.1);
 
-               speed= 0.000001;
+               speed= 0.01;
 
                const oscillator = osc(
                     () =>

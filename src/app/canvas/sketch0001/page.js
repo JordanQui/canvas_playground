@@ -6,13 +6,13 @@ import Sketch0001 from "../../../components/Sketch0001";
 export default function GlissContainer() {
      const [key, setKey] = useState(0);
 
-     // useEffect(() => {
-     //      const interval = setInterval(() => {
-     //           setKey((prevKey) => prevKey + 1);
-     //      }, 1000);
+     useEffect(() => {
+          const interval = setInterval(() => {
+               window.location.reload();
+          }, 5000); // 30 minutes
 
-     //      return () => clearInterval(interval);
-     // }, []);
+          return () => clearInterval(interval); // Nettoyage à la suppression du composant
+     }, []);
 
      return (
           <div
