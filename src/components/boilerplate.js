@@ -60,29 +60,9 @@ export default function Sketch0002({ id }) {
 
                a.setSmooth(0.1);
 
-               speed = 0.000001;
+               speed= 0.000001;
 
-               const oscillator = noise(
-                    () => 1 + smoothedValues.valueLo * 15,
-                    0
-               )
-                    .scrollX(() => -smoothedValues.valueMid2 * 5)
-                    .scale(
-                         () =>
-                              1 +
-                              smoothedValues.valueLo * 10
-                    )
-                    .contrast(() => 5 - smoothedValues.valueLo * 10)
-                    .add(
-                         osc(
-                              () => 0.1 + smoothedValues.valueHi * 500,
-                              0,
-                              () => smoothedValues.valueMid1 * 10
-                         ).rotate(10)
-                    )
-                    .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5)
-                    .blend(o0, 0.5)
-                    .out();
+               // const oscillator = 
 
                // Cleanup on component unmount
                return () => {

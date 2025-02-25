@@ -75,10 +75,6 @@ export default function Sketch0002({ id }) {
                     .rotate(1, 0.2)
                     .contrast(2)
                     .modulate(o0)
-                    .blend(o0)
-                    .blend(o0)
-                    .blend(o0)
-                    .blend(o0)
                     .out(o0);
           };
           document.body.appendChild(script);

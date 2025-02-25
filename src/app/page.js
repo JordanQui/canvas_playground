@@ -9,7 +9,10 @@ export default function Home() {
           { name: "Sketch 002", path: "/canvas/sketch0002" },
           { name: "Sketch 003", path: "/canvas/sketch0003" },
           { name: "Sketch 004", path: "/canvas/sketch0004" },
-          // { name: "Sketch 004", path: "/canvas/sketch0004" },
+          { name: "Sketch 005", path: "/canvas/sketch0005" },
+          { name: "Sketch 006", path: "/canvas/sketch0006" },
+          { name: "Sketch 007", path: "/canvas/sketch0007" },
+          { name: "Sketch 008", path: "/canvas/sketch0008" },
      ];
 
      return (
