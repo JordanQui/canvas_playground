@@ -68,7 +68,7 @@ export default function Sketch0002({ id }) {
                          smoothedValues.valueLo +
                          -smoothedValues.valueHi * 10,
                     0,
-                    () => smoothedValues.valueMid1 * 100
+                    () => smoothedValues.valueMid1 * 500
                )
                     .scale(0.1)
                     .modulate(o0, () => (smoothedValues.valueHi * 7) + 0.36)
