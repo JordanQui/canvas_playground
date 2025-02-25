@@ -66,7 +66,7 @@ export default function Sketch0002({ id }) {
                     () =>
                          2 -
                          smoothedValues.valueLo +
-                         -smoothedValues.valueHi * 10,
+                         -smoothedValues.valueHi * 100,
                     0,
                     () => smoothedValues.valueMid1 * 500
                )
