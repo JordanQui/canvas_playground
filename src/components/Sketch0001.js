@@ -1,67 +1,30 @@
+/**
+ * Ce projet utilise Hydra.js, sous licence MIT.
+ * Copyright (c) 2020 Olivia Jack et les contributeurs de Hydra.js.
+ * Voir le fichier LICENSE pour plus de détails.
+ */
+
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
 
-export default function Sketch0001({ id }) {
-     const canvasRef = useRef(null);
-     const intervalRef = useRef(null);
-     const scriptRef = useRef(null);
-     const hydraRef = useRef(null);
-     const hydraScriptSrc = "/hydra.js";
-     const [recharge, setRecharge] = useState(false);
-     const [glReady, setGlReady] = useState(false);
-
+export default function Sketch0002({ id }) {
      useEffect(() => {
-          const canvas = canvasRef.current;
-          if (!canvas) return;
-
-          canvas.width = 1920;
-          canvas.height = 1080;
-          const gl = canvas.getContext("webgl");
-          if (!gl) return;
-
-          setGlReady(true);
-
           const script = document.createElement("script");
-          script.src = hydraScriptSrc;
+          script.src = "/hydra.js";
           script.async = true;
-          scriptRef.current = script;
-
           script.onload = () => {
-               if (glReady) {
-                    initializeHydra();
-               }
-          };
+               const canvas = document.getElementById(id);
 
-          document.body.appendChild(script);
-
-          return cleanup;
-     }, [recharge, glReady]);
-
-     useEffect(() => {
-          const interval = setInterval(() => {
-               setRecharge((prevRecharge) => !prevRecharge);
-          }, 10 * 1000);
-
-          intervalRef.current = interval;
-
-          return () => {
-               clearInterval(interval);
-          };
-     }, []);
-
-     const initializeHydra = () => {
-          try {
                const hydra = new Hydra({
-                    canvas: canvasRef.current,
+                    canvas: canvas,
                     detectAudio: true,
                });
 
-               hydraRef.current = hydra;
-
                a.setBins(8);
-               setResolution(1920, 1080);
+
+               setResolution(800, 600);
 
                let smoothedValues = {
                     valueLo: 0,
@@ -70,7 +33,7 @@ export default function Sketch0001({ id }) {
                     valueHi: 0,
                };
 
-               const tresh = 0.0001;
+               const tresh = 0.01;
 
                function smoothAudio() {
                     gsap.to(smoothedValues, {
@@ -91,7 +54,8 @@ export default function Sketch0001({ id }) {
                     });
                }
 
-               intervalRef.current = setInterval(smoothAudio, 1);
+               setInterval(smoothAudio, 1);
+               a.setSmooth(0.9);
 
                osc(
                     () =>
@@ -103,79 +67,46 @@ export default function Sketch0001({ id }) {
                )
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
                     .mult(
-                         osc(
-                              () => 0.1 + smoothedValues.valueHi * 1,
-                              0,
-                              () =>
-                                   smoothedValues.valueMid1 * 100 +
-                                   smoothedValues.valueHi * 100
-                         ).rotate(10)
+                         window
+                              .osc(
+                                   () => 0.1 + smoothedValues.valueHi * 1,
+                                   0,
+                                   () =>
+                                        smoothedValues.valueMid1 * 100 +
+                                        smoothedValues.valueHi * 100
+                              )
+                              .rotate(10)
                     )
-                    .modulate(o0, 0.6)
-                    .out(o0);
-          } catch (error) {
-               console.error(error);
-          }
-     };
-
-     const cleanup = () => {
-          console.log("Nettoyage de Hydra...");
-          try {
-               if (hydraRef.current) {
-                    hydraRef.current = null;
-               }
-               if (intervalRef.current) {
-                    clearInterval(intervalRef.current);
-                    intervalRef.current = null;
-               }
-               if (canvasRef.current) {
-                    const ctx = canvasRef.current.getContext("2d");
-                    if (ctx) {
-                         ctx.clearRect(
-                              0,
-                              0,
-                              canvasRef.current.width,
-                              canvasRef.current.height
-                         );
-                    }
-               }
-          } catch (err) {
-               console.error("Erreur lors de la suppression de Hydra :", err);
-          } finally {
-               // Nettoyer les ressources ici
-          }
-     };
-
-
-
-     useEffect(() => {
-          return () => {
-               cleanup();
+                    // .modulate(o0, 0.6)
+                    .out(window.o0);
           };
-     }, []);
+          document.body.appendChild(script);
+
+          // Cleanup lors de la destruction du composant
+          return () => {
+               document.body.removeChild(script);
+          };
+     }, [id]);
 
      return (
           <div
                style={{
                     display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
+                    "justify-content": "center",
+                    "flex-direction": "column",
                }}
           >
                <canvas
-                    ref={canvasRef}
-                    id={id}
-                    width={1920}
-                    height={1080}
+                    id={id} // Use the id prop for canvas
                     style={{
                          display: "block",
                          width: "100vw",
                          height: "100vh",
-                         backgroundColor: "#000",
+                         backgroundColor: "#00",
                          overflow: "hidden",
                          cursor: "none",
                     }}
-               />
+               ></canvas>
           </div>
      );
 }

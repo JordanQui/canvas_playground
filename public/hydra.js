@@ -4252,7 +4252,10 @@
                                                   : Array.isArray(e) &&
                                                     ((c = K[e[0]]),
                                                     (d = K[e[1]]));
-                                        } else "wrapS" in b && (c = K[b.wrapS]), "wrapT" in b && (d = K[b.wrapT]);
+                                        } else
+                                             "wrapS" in b && (c = K[b.wrapS]),
+                                                  "wrapT" in b &&
+                                                       (d = K[b.wrapT]);
                                         a.wrapS = c;
                                         a.wrapT = d;
                                         "anisotropic" in b &&
@@ -4377,10 +4380,34 @@
                                         W = {};
                                    b.ext_srgb &&
                                         ((U.srgb = 35904), (U.srgba = 35906));
-                                   b.oes_texture_float &&
-                                        (G.float32 = G["float"] = 5126);
-                                   b.oes_texture_half_float &&
-                                        (G.float16 = G["half float"] = 36193);
+
+                                   // Ligne modifiée pour WebGL2
+                                   if (
+                                        typeof WebGL2RenderingContext !==
+                                        "undefined"
+                                   ) {
+                                        G.float32 = G["float"] =
+                                             WebGL2RenderingContext.FLOAT;
+                                   } else {
+                                        // Fallback pour WebGL 1 où vous auriez besoin de l'extension
+                                        b.oes_texture_float &&
+                                             (G.float32 = G["float"] = 5126);
+                                   }
+
+                                   // Ligne modifiée pour WebGL2
+                                   if (
+                                        typeof WebGL2RenderingContext !==
+                                        "undefined"
+                                   ) {
+                                        G.float16 = G["half float"] =
+                                             WebGL2RenderingContext.HALF_FLOAT;
+                                   } else {
+                                        // Fallback pour WebGL 1 où vous auriez besoin de l'extension
+                                        b.oes_texture_half_float &&
+                                             (G.float16 = G["half float"] =
+                                                  36193);
+                                   }
+
                                    b.webgl_depth_texture &&
                                         (E(U, {
                                              depth: 6402,
@@ -5326,8 +5353,19 @@
                                    var y = ["uint8"];
                                    b.oes_texture_half_float &&
                                         y.push("half float", "float16");
-                                   b.oes_texture_float &&
+
+                                   // Ligne modifiée pour WebGL2
+                                   if (
+                                        typeof WebGL2RenderingContext !==
+                                        "undefined"
+                                   ) {
                                         y.push("float", "float32");
+                                   } else {
+                                        // Fallback pour WebGL 1 où vous auriez besoin de l'extension
+                                        b.oes_texture_float &&
+                                             y.push("float", "float32");
+                                   }
+
                                    var O = 0,
                                         R = {};
                                    return E(B, {
@@ -9582,7 +9620,11 @@
                                         b.webgl_draw_buffers &&
                                              ((e = a.getParameter(34852)),
                                              (g = a.getParameter(36063)));
-                                        var d = !!b.oes_texture_float;
+
+                                        var d =
+                                             typeof WebGL2RenderingContext !==
+                                             "undefined";
+
                                         if (d) {
                                              d = a.createTexture();
                                              a.bindTexture(3553, d);
@@ -13476,7 +13518,7 @@ const types = {
                                         // optionalExtensions: [
                                         //   'oes_texture_float',
                                         //   'oes_texture_float_linear'
-                                        //]
+                                        // ]
                                    }); // This clears the color buffer to black and the depth buffer to 1
 
                                    this.regl.clear({
