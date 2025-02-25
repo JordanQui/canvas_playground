@@ -71,7 +71,7 @@ export default function Sketch0002({ id }) {
                     () => smoothedValues.valueLo * 100
                )
                     .scale(0.1)
-                    .modulate(o0, 0.36)
+                    .modulate(o0, () => (smoothedValues.valueHi * 7) + 0.36)
                     .blend(o0,0.55)
                     .out(window.o0);
 
