@@ -58,7 +58,7 @@ export default function Sketch0002({ id }) {
                clearInterval(intervalRef.current);
                intervalRef.current = setInterval(smoothAudio, 16); // Utilisez un intervalle plus long pour réduire la charge
 
-               a.setSmooth(0.9);
+               a.setSmooth(0.1);
 
                speed= 0.000001;
 
