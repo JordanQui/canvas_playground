@@ -62,20 +62,19 @@ export default function Sketch0002({ id }) {
                          2 -
                          smoothedValues.valueLo +
                          smoothedValues.valueHi * 3,
-                    0.1,
+                    0,
                     0
                )
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
                     .mult(
-                         window
-                              .osc(
+                         osc(
                                    () => 0.1 + smoothedValues.valueHi * 1,
                                    0,
                                    () =>
                                         smoothedValues.valueMid1 * 100 +
                                         smoothedValues.valueHi * 100
                               )
-                              .rotate(10)
+                              // .rotate(10)
                     )
                     // .modulate(o0, 0.6)
                     .out(window.o0);
