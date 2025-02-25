@@ -72,6 +72,7 @@ export default function Sketch0002({ id }) {
                )
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
                     .modulate(o0, 0.2)
+                    .blend(o0,0.55)
                     .out(window.o0);
 
                // Cleanup on component unmount
