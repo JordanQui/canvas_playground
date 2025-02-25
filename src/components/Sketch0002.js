@@ -66,21 +66,21 @@ export default function Sketch0002({ id }) {
                     () => 1 + smoothedValues.valueLo * 15,
                     0
                )
-                    .scrollX(() => -smoothedValues.valueMid2 * 5)
+                    .scrollX(() => -smoothedValues.valueMid2 * 50000 + 1000)
                     .scale(
                          () =>
                               1 +
-                              smoothedValues.valueLo * 10
+                              smoothedValues.valueLo * 2
                     )
                     .contrast(() => 5 - smoothedValues.valueLo * 10)
                     .add(
                          osc(
-                              () => 0.1 + smoothedValues.valueHi * 500,
+                              () => 0.1 + smoothedValues.valueHi * 5000,
                               0,
                               () => smoothedValues.valueMid1 * 10
                          ).rotate(10)
                     )
-                    .modulate(o0, () => 0.1 + smoothedValues.valueLo * 2.5)
+                    .modulate(o0, () => 0.1 + smoothedValues.valueHi * 2.5)
                     .blend(o0, 0.5)
                     .out();
 
