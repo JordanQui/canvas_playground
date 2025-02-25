@@ -60,16 +60,18 @@ export default function Sketch0002({ id }) {
 
                a.setSmooth(0.9);
 
+               speed= 0.000001;
+
                const oscillator = osc(
                     () =>
                          2 -
                          smoothedValues.valueLo +
-                         smoothedValues.valueHi * 3,
+                         -smoothedValues.valueHi * 10,
                     0,
                     () => smoothedValues.valueLo * 100
                )
                     .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                    // .modulate(o0, 0.6)
+                    .modulate(o0, 0.2)
                     .out(window.o0);
 
                // Cleanup on component unmount
