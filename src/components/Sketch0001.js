@@ -7,6 +7,7 @@ export default function Sketch0001({ id }) {
      const canvasRef = useRef(null);
      const intervalRef = useRef(null);
      const scriptRef = useRef(null);
+     const hydraRef = useRef(null);
      const hydraScriptSrc = "/hydra.js";
      const [recharge, setRecharge] = useState(false);
      const [glReady, setGlReady] = useState(false);
@@ -35,24 +36,15 @@ export default function Sketch0001({ id }) {
 
           document.body.appendChild(script);
 
-          return () => {
-               if (scriptRef.current && scriptRef.current.parentNode) {
-                    scriptRef.current.parentNode.removeChild(scriptRef.current);
-               }
-               // const gl = canvasRef.current.getContext("webgl");
-               // if (gl) {
-               //      const ext = gl.getExtension("WEBGL_lose_context");
-               //      if (ext) {
-               //           ext.loseContext();
-               //      }
-               // }
-          };
+          return cleanup;
      }, [recharge, glReady]);
 
      useEffect(() => {
           const interval = setInterval(() => {
                setRecharge((prevRecharge) => !prevRecharge);
           }, 10 * 1000);
+
+          intervalRef.current = interval;
 
           return () => {
                clearInterval(interval);
@@ -65,6 +57,8 @@ export default function Sketch0001({ id }) {
                     canvas: canvasRef.current,
                     detectAudio: true,
                });
+
+               hydraRef.current = hydra;
 
                a.setBins(8);
                setResolution(1920, 1080);
@@ -123,6 +117,48 @@ export default function Sketch0001({ id }) {
                console.error(error);
           }
      };
+
+     const cleanup = () => {
+          console.log("🔴 Nettoyage de Hydra...");
+
+          if (hydraRef.current) {
+               try {
+                    hydraRef.current.synth.silence(); // Arrête Hydra
+                    hydraRef.current = null; // Libère la référence
+               } catch (err) {
+                    console.warn(
+                         "⚠️ Erreur lors de la suppression de Hydra :",
+                         err
+                    );
+               }
+          }
+
+          if (intervalRef.current) {
+               clearInterval(intervalRef.current); // Nettoie l'intervalle
+               intervalRef.current = null;
+          }
+
+          if (canvasRef.current) {
+               const ctx = canvasRef.current.getContext("2d");
+               if (ctx) {
+                    // Efface le canvas
+                    ctx.clearRect(
+                         0,
+                         0,
+                         canvasRef.current.width,
+                         canvasRef.current.height
+                    );
+               }
+          } else {
+               console.warn("⚠️ Le canvas est déjà null ou a été démonté !");
+          }
+     };
+
+     useEffect(() => {
+          return () => {
+               cleanup();
+          };
+     }, []);
 
      return (
           <div
