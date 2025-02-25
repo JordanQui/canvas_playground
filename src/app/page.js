@@ -20,6 +20,7 @@ export default function Home() {
                     justifyContent: "center",
                     alignItems: "center",
                     height: "100vh",
+                    "background-color": "white"
                }}
           >
                {sketches.map((sketch, index) => (
