@@ -70,7 +70,7 @@ export default function Sketch0002({ id }) {
                     0,
                     () => smoothedValues.valueLo * 100
                )
-                    .scale(() => smoothedValues.valueLo * 1 + 0.1)
+                    .scale(0.1)
                     .modulate(o0, 0.36)
                     .blend(o0,0.55)
                     .out(window.o0);
