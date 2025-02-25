@@ -66,12 +66,12 @@ export default function Sketch0002({ id }) {
                     () => 1 + smoothedValues.valueLo * 15,
                     1
                )
-                    .scrollX(() => -smoothedValues.valueMid2 * 50000 + 1000)
+                    .scrollX(() => -smoothedValues.valueMid2 * 100 + 1000)
                     .scale(
                          () =>
                               1 +
                               smoothedValues.valueLo * 2 +
-                              smoothedValues.valueHi * 4
+                              smoothedValues.valueHi * 5
                     )
                     .contrast(() => 5 - smoothedValues.valueLo * 10)
                     .add(
@@ -83,7 +83,7 @@ export default function Sketch0002({ id }) {
                                    smoothedValues.valueHi * 1e6
                          )
                     )
-                    .modulate(o0, () => 0.1 + smoothedValues.valueHi * 2.5)
+                    .modulate(o0, () => 0.1 + smoothedValues.valueHi * 12.5)
                     .blend(o0, 0.5)
                     .out();
 
