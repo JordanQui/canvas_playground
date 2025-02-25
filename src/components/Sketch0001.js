@@ -9,6 +9,7 @@ export default function Sketch0001({ id }) {
      const scriptRef = useRef(null);
      const hydraScriptSrc = "/hydra.js";
      const [recharge, setRecharge] = useState(false);
+     const [glReady, setGlReady] = useState(false);
 
      useEffect(() => {
           const canvas = canvasRef.current;
@@ -19,97 +20,109 @@ export default function Sketch0001({ id }) {
           const gl = canvas.getContext("webgl");
           if (!gl) return;
 
+          setGlReady(true);
+
           const script = document.createElement("script");
           script.src = hydraScriptSrc;
           script.async = true;
           scriptRef.current = script;
 
-          const initializeHydra = () => {
-               try {
-                    const hydra = new Hydra({
-                         canvas: canvas,
-                         detectAudio: true,
-                    });
-
-                    a.setBins(8);
-                    setResolution(1920, 1080);
-
-                    let smoothedValues = {
-                         valueLo: 0,
-                         valueMid1: 0,
-                         valueMid2: 0,
-                         valueHi: 0,
-                    };
-
-                    const tresh = 0.0001;
-
-                    function smoothAudio() {
-                         gsap.to(smoothedValues, {
-                              duration: 0.5,
-                              valueLo: a.fft[0] > tresh ? a.fft[0] : 0,
-                         });
-                         gsap.to(smoothedValues, {
-                              duration: 0.55,
-                              valueMid1: a.fft[1] > tresh ? a.fft[1] : 0,
-                         });
-                         gsap.to(smoothedValues, {
-                              duration: 0.15,
-                              valueMid2: a.fft[2] > tresh ? a.fft[2] : 0,
-                         });
-                         gsap.to(smoothedValues, {
-                              duration: 0.5,
-                              valueHi: a.fft[7] > tresh ? a.fft[7] : 0,
-                         });
-                    }
-
-                    intervalRef.current = setInterval(smoothAudio, 1);
-
-                    osc(
-                         () =>
-                              2 -
-                              smoothedValues.valueLo +
-                              smoothedValues.valueHi * 3,
-                         0.1,
-                         0
-                    )
-                         .scale(() => smoothedValues.valueLo * 1 + 0.1)
-                         .mult(
-                              osc(
-                                   () => 0.1 + smoothedValues.valueHi * 1,
-                                   0,
-                                   () =>
-                                        smoothedValues.valueMid1 * 100 +
-                                        smoothedValues.valueHi * 100
-                              ).rotate(10)
-                         )
-                         .modulate(o0, 0.6)
-                         .out(o0);
-               } catch (error) {
-                    console.error(error);
-               }
-          };
-
           script.onload = () => {
-               initializeHydra();
+               if (glReady) {
+                    initializeHydra();
+               }
           };
 
           document.body.appendChild(script);
 
           return () => {
-               clearInterval(intervalRef.current);
                if (scriptRef.current && scriptRef.current.parentNode) {
                     scriptRef.current.parentNode.removeChild(scriptRef.current);
                }
+               // const gl = canvasRef.current.getContext("webgl");
+               // if (gl) {
+               //      const ext = gl.getExtension("WEBGL_lose_context");
+               //      if (ext) {
+               //           ext.loseContext();
+               //      }
+               // }
           };
-     }, [recharge]);
+     }, [recharge, glReady]);
 
      useEffect(() => {
           const interval = setInterval(() => {
                setRecharge((prevRecharge) => !prevRecharge);
           }, 10 * 1000);
 
-          return () => clearInterval(interval);
+          return () => {
+               clearInterval(interval);
+          };
      }, []);
+
+     const initializeHydra = () => {
+          try {
+               const hydra = new Hydra({
+                    canvas: canvasRef.current,
+                    detectAudio: true,
+               });
+
+               a.setBins(8);
+               setResolution(1920, 1080);
+
+               let smoothedValues = {
+                    valueLo: 0,
+                    valueMid1: 0,
+                    valueMid2: 0,
+                    valueHi: 0,
+               };
+
+               const tresh = 0.0001;
+
+               function smoothAudio() {
+                    gsap.to(smoothedValues, {
+                         duration: 0.5,
+                         valueLo: a.fft[0] > tresh ? a.fft[0] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.55,
+                         valueMid1: a.fft[1] > tresh ? a.fft[1] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.15,
+                         valueMid2: a.fft[2] > tresh ? a.fft[2] : 0,
+                    });
+                    gsap.to(smoothedValues, {
+                         duration: 0.5,
+                         valueHi: a.fft[7] > tresh ? a.fft[7] : 0,
+                    });
+               }
+
+               intervalRef.current = setInterval(smoothAudio, 1);
+
+               osc(
+                    () =>
+                         2 -
+                         smoothedValues.valueLo +
+                         smoothedValues.valueHi * 3,
+                    0.1,
+                    0
+               )
+                    .scale(() => smoothedValues.valueLo * 1 + 0.1)
+                    .mult(
+                         osc(
+                              () => 0.1 + smoothedValues.valueHi * 1,
+                              0,
+                              () =>
+                                   smoothedValues.valueMid1 * 100 +
+                                   smoothedValues.valueHi * 100
+                         ).rotate(10)
+                    )
+                    .modulate(o0, 0.6)
+                    .out(o0);
+          } catch (error) {
+               console.error(error);
+          }
+     };
 
      return (
           <div
