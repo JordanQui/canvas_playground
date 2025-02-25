@@ -119,40 +119,34 @@ export default function Sketch0001({ id }) {
      };
 
      const cleanup = () => {
-          console.log("🔴 Nettoyage de Hydra...");
-
-          if (hydraRef.current) {
-               try {
-                    hydraRef.current.synth.silence(); // Arrête Hydra
-                    hydraRef.current = null; // Libère la référence
-               } catch (err) {
-                    console.warn(
-                         "⚠️ Erreur lors de la suppression de Hydra :",
-                         err
-                    );
+          console.log("Nettoyage de Hydra...");
+          try {
+               if (hydraRef.current) {
+                    hydraRef.current = null;
                }
-          }
-
-          if (intervalRef.current) {
-               clearInterval(intervalRef.current); // Nettoie l'intervalle
-               intervalRef.current = null;
-          }
-
-          if (canvasRef.current) {
-               const ctx = canvasRef.current.getContext("2d");
-               if (ctx) {
-                    // Efface le canvas
-                    ctx.clearRect(
-                         0,
-                         0,
-                         canvasRef.current.width,
-                         canvasRef.current.height
-                    );
+               if (intervalRef.current) {
+                    clearInterval(intervalRef.current);
+                    intervalRef.current = null;
                }
-          } else {
-               console.warn("⚠️ Le canvas est déjà null ou a été démonté !");
+               if (canvasRef.current) {
+                    const ctx = canvasRef.current.getContext("2d");
+                    if (ctx) {
+                         ctx.clearRect(
+                              0,
+                              0,
+                              canvasRef.current.width,
+                              canvasRef.current.height
+                         );
+                    }
+               }
+          } catch (err) {
+               console.error("Erreur lors de la suppression de Hydra :", err);
+          } finally {
+               // Nettoyer les ressources ici
           }
      };
+
+
 
      useEffect(() => {
           return () => {
