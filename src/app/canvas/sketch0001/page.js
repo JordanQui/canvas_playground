@@ -9,7 +9,7 @@ export default function GlissContainer() {
      useEffect(() => {
           const interval = setInterval(() => {
                setKey(prevKey => prevKey + 1); 
-          }, 20 * 60 * 1000); 
+          }, 5 * 60 * 1000); 
 
           return () => clearInterval(interval);
      }, []);
