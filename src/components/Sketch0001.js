@@ -4,18 +4,31 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 export default function Sketch0001({ id }) {
-     const canvasRef = useRef(null); // Référence au canvas
-     const intervalRef = useRef(null);
-     const hydraRef = useRef(null);
+     const canvasRef = useRef(null);
+     const intervalRef = useRef(null); // Référence pour l'intervalle
 
      useEffect(() => {
-          function initHydra() {
-               if (hydraRef.current) return; // Évite d'initialiser plusieurs fois Hydra
+          const canvas = canvasRef.current;
 
-               const canvas = canvasRef.current;
-               if (!canvas) return; // Sécurité au cas où le canvas n'est pas encore chargé
+          // Vérifie si WebGL est disponible
+          const testWebGL = () => {
+               const gl = canvas.getContext("webgl");
+               if (gl) {
+                    console.log("WebGL est disponible !");
+               } else {
+                    console.warn(
+                         "WebGL n'est pas supporté sur ce navigateur !"
+                    );
+               }
+          };
 
-               hydraRef.current = new Hydra({
+          const script = document.createElement("script");
+          script.src = "/hydra.js";
+          script.async = true;
+          script.onload = () => {
+               testWebGL(); // Vérifie WebGL après le chargement de Hydra.js
+
+               const hydra = new Hydra({
                     canvas: canvas,
                     detectAudio: true,
                });
@@ -51,8 +64,7 @@ export default function Sketch0001({ id }) {
                     });
                }
 
-               if (intervalRef.current) clearInterval(intervalRef.current);
-               intervalRef.current = setInterval(smoothAudio, 1);
+               intervalRef.current = setInterval(smoothAudio, 1); // Enregistre l'ID de l'intervalle
 
                osc(
                     () =>
@@ -74,27 +86,14 @@ export default function Sketch0001({ id }) {
                     )
                     .modulate(o0, 0.6)
                     .out(o0);
-          }
+          };
 
-          if (!window.Hydra) {
-               const script = document.createElement("script");
-               script.src = "/hydra.js";
-               script.async = true;
-               script.onload = initHydra;
-               document.body.appendChild(script);
+          document.body.appendChild(script);
 
-               return () => {
-                    document.body.removeChild(script);
-               };
-          } else {
-               initHydra();
-          }
-
+          // Cleanup lors de la destruction du composant
           return () => {
-               if (intervalRef.current) clearInterval(intervalRef.current);
-               if (hydraRef.current) {
-                    hydraRef.current = null; // Reset propre de Hydra
-               }
+               clearInterval(intervalRef.current); // Nettoie l'intervalle
+               document.body.removeChild(script);
           };
      }, [id]);
 
@@ -108,12 +107,14 @@ export default function Sketch0001({ id }) {
           >
                <canvas
                     ref={canvasRef}
-                    id={id} // On garde l'ID intact
+                    id={id}
+                    width={1920} // Définit la largeur du canvas
+                    height={1080} // Définit la hauteur du canvas
                     style={{
                          display: "block",
                          width: "100vw",
                          height: "100vh",
-                         backgroundColor: "#00",
+                         backgroundColor: "#000", // Utilise une couleur de fond visible
                          overflow: "hidden",
                          cursor: "none",
                     }}
