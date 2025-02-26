@@ -34,7 +34,7 @@ export default function Sketch0002({ id }) {
                     valueHi: 0,
                };
 
-               const tresh = 0.1;
+               const tresh = 0.15;
 
                function smoothAudio() {
                     gsap.to(smoothedValues, {
