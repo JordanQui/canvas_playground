@@ -9,7 +9,7 @@ export default function GlissContainer() {
      useEffect(() => {
           const interval = setInterval(() => {
                window.location.reload();
-          }, 30 * 60 * 1000); // 30 minutes
+          }, 60 * 60 * 1000); 
 
           return () => clearInterval(interval); // Nettoyage à la suppression du composant
      }, []);
